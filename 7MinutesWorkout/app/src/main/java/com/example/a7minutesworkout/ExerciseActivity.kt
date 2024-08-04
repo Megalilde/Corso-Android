@@ -22,6 +22,9 @@ class ExerciseActivity : AppCompatActivity() {
     private var exerciseTimer: CountDownTimer? = null
     private var eserciseProgress: Int = 0
 
+    private var exerciseList: MutableList<ExerciseModel>? = null
+    private var currectExercisePosition = -1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityExerciseBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
@@ -36,6 +39,8 @@ class ExerciseActivity : AppCompatActivity() {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
         }
 
+        exerciseList = Constants.defaultExerciseList()
+
         binding?.toolbarExercise?.setNavigationOnClickListener {
             onBackPressed()
         }
@@ -45,25 +50,44 @@ class ExerciseActivity : AppCompatActivity() {
     }
 
     private fun setupRestView(){
+        binding?.flRestView?.visibility = View.VISIBLE
+        binding?.tvTitle?.visibility = View.VISIBLE
+        binding?.tvUpcomingLabel?.visibility = View.VISIBLE
+        binding?.tvUpcomingExercise?.visibility = View.VISIBLE
+        binding?.tvExerciseName?.visibility = View.INVISIBLE
+        binding?.flExerciseView?.visibility = View.INVISIBLE
+        binding?.ivImage?.visibility = View.INVISIBLE
+
+
         if(restTimer!= null){
             restTimer?.cancel()
             restProgress = 0
         }
+
+        binding?.tvUpcomingExercise?.text = exerciseList!![currectExercisePosition + 1].getName()
         setRestProgressBar()
     }
 
     private fun setupExerciseView(){
-        binding?.flProgressBar?.visibility = View.GONE
+        binding?.flRestView?.visibility = View.INVISIBLE
+        binding?.tvTitle?.visibility = View.INVISIBLE
+        binding?.tvUpcomingLabel?.visibility = View.INVISIBLE
+        binding?.tvUpcomingExercise?.visibility = View.INVISIBLE
 
         // Molto importante, permette di cambiare il constraint dinamicamente.
-        val layoutParams = binding?.tvTitle?.layoutParams as ConstraintLayout.LayoutParams
-        layoutParams.bottomToTop = binding?.flExerciseView!!.id
-        binding?.tvTitle?.text = "Exercise Name"
+        //val layoutParams = binding?.tvTitle?.layoutParams as ConstraintLayout.LayoutParams
+        //layoutParams.bottomToTop = binding?.flExerciseView!!.id
+
+        binding?.tvExerciseName?.visibility = View.VISIBLE
         binding?.flExerciseView?.visibility = View.VISIBLE
+        binding?.ivImage?.visibility = View.VISIBLE
+
         if(exerciseTimer!= null){
             exerciseTimer?.cancel()
             eserciseProgress = 0
         }
+        binding?.ivImage?.setImageResource(exerciseList!![currectExercisePosition].getImage())
+        binding?.tvExerciseName?.text = exerciseList!!.get(currectExercisePosition).getName()
         setExerciseProgressBar()
     }
 
@@ -80,7 +104,8 @@ class ExerciseActivity : AppCompatActivity() {
             }
 
             override fun onFinish() {
-                Toast.makeText(this@ExerciseActivity,"Exercises will start now!",Toast.LENGTH_LONG).show()
+
+                currectExercisePosition++
                 setupExerciseView()
             }
 
@@ -91,7 +116,7 @@ class ExerciseActivity : AppCompatActivity() {
     private fun setExerciseProgressBar(){
         binding?.progressBarExercise?.progress = eserciseProgress
 
-        // Voglio che ogni 1000 millisecondi esegue il Metodo della durata totale di 10000 millisecondi
+        // Voglio che ogni 1000 millisecondi esegue il Metodo della durata totale di 30000 millisecondi
         exerciseTimer = object: CountDownTimer(30000,1000){
             override fun onTick(p0: Long) {
                 eserciseProgress++;
@@ -100,7 +125,12 @@ class ExerciseActivity : AppCompatActivity() {
             }
 
             override fun onFinish() {
-                Toast.makeText(this@ExerciseActivity,"Exercises is done!",Toast.LENGTH_LONG).show()
+                if(currectExercisePosition < exerciseList?.size!! - 1){
+                    setupRestView()
+                }else{
+                    Toast.makeText(this@ExerciseActivity,"Congratulation!!",Toast.LENGTH_LONG).show()
+                }
+
             }
 
         }.start()
