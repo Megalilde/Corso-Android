@@ -1,7 +1,12 @@
 package com.example.a7minutesworkout
 
+import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.provider.MediaStore.Audio.Media
+import android.speech.tts.TextToSpeech
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -11,8 +16,9 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.a7minutesworkout.databinding.ActivityExerciseBinding
 import com.example.a7minutesworkout.databinding.ActivityMainBinding
+import java.util.Locale
 
-class ExerciseActivity : AppCompatActivity() {
+class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     private var binding: ActivityExerciseBinding? = null
 
@@ -24,6 +30,10 @@ class ExerciseActivity : AppCompatActivity() {
 
     private var exerciseList: MutableList<ExerciseModel>? = null
     private var currectExercisePosition = -1
+
+    private var tts: TextToSpeech? = null
+
+    private var player: MediaPlayer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityExerciseBinding.inflate(layoutInflater)
@@ -41,6 +51,10 @@ class ExerciseActivity : AppCompatActivity() {
 
         exerciseList = Constants.defaultExerciseList()
 
+        tts = TextToSpeech(this,this)
+
+
+
         binding?.toolbarExercise?.setNavigationOnClickListener {
             onBackPressed()
         }
@@ -49,6 +63,8 @@ class ExerciseActivity : AppCompatActivity() {
 
     }
 
+
+    // Questo Metodo setta l'ui inziale prima dell'esercizio
     private fun setupRestView(){
         binding?.flRestView?.visibility = View.VISIBLE
         binding?.tvTitle?.visibility = View.VISIBLE
@@ -64,10 +80,22 @@ class ExerciseActivity : AppCompatActivity() {
             restProgress = 0
         }
 
+        // Inserimento di un audio
+        try {
+            val soundURI = Uri.parse("android.resource://com.example.a7minutesworkout/" + R.raw.press_start)
+            player = MediaPlayer.create(applicationContext, soundURI)
+            player?.isLooping = false
+            player?.start()
+        }catch(e: Exception){
+            e.printStackTrace()
+        }
+
         binding?.tvUpcomingExercise?.text = exerciseList!![currectExercisePosition + 1].getName()
         setRestProgressBar()
     }
 
+
+    // Questo Metodo setta l'ui dell'esercizio
     private fun setupExerciseView(){
         binding?.flRestView?.visibility = View.INVISIBLE
         binding?.tvTitle?.visibility = View.INVISIBLE
@@ -86,12 +114,16 @@ class ExerciseActivity : AppCompatActivity() {
             exerciseTimer?.cancel()
             eserciseProgress = 0
         }
+
+        speakOut(exerciseList!![currectExercisePosition].getName())
+
         binding?.ivImage?.setImageResource(exerciseList!![currectExercisePosition].getImage())
         binding?.tvExerciseName?.text = exerciseList!!.get(currectExercisePosition).getName()
         setExerciseProgressBar()
     }
 
 
+    // Per la progress bar iniziale
     private fun setRestProgressBar(){
         binding?.progressBar?.progress = restProgress
 
@@ -113,6 +145,7 @@ class ExerciseActivity : AppCompatActivity() {
 
     }
 
+    // Per la progress bar dell'esercizio
     private fun setExerciseProgressBar(){
         binding?.progressBarExercise?.progress = eserciseProgress
 
@@ -147,6 +180,30 @@ class ExerciseActivity : AppCompatActivity() {
             exerciseTimer?.cancel()
             eserciseProgress = 0
         }
+        if(tts != null){
+            tts!!.stop()
+            tts!!.shutdown()
+        }
+        if(player != null){
+            player!!.stop()
+        }
+
         binding = null
+    }
+
+    // Per la Scelta del linguaggio
+    override fun onInit(status: Int) {
+        if(status == TextToSpeech.SUCCESS){
+            val result = tts?.setLanguage(Locale.US)
+            if(result == TextToSpeech.LANG_MISSING_DATA || result ==  TextToSpeech.LANG_NOT_SUPPORTED){
+                Log.e("TTS","The language is not supported!")
+            }
+        }else{
+            Log.e("TTS","Initialization Failed!")
+        }
+    }
+    // Metodo per far parlare un bot il nome dell'esercizio passato
+    private fun speakOut(text: String){
+        tts!!.speak(text, TextToSpeech.QUEUE_FLUSH, null,"")
     }
 }
