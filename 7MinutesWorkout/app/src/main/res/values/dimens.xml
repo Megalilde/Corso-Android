@@ -3,6 +3,7 @@
     <dimen name="main_screen_main_layout_padding">5dp</dimen>
     <dimen name="default_button_text_size">22sp</dimen>
     <dimen name="default_timer_text_size">25sp</dimen>
+    <dimen name="default_list_exercise_item_size">14sp</dimen>
 
 
 </resources>

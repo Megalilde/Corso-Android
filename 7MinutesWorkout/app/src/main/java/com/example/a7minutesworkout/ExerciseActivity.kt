@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.a7minutesworkout.databinding.ActivityExerciseBinding
 import com.example.a7minutesworkout.databinding.ActivityMainBinding
 import java.util.Locale
@@ -34,6 +35,8 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private var tts: TextToSpeech? = null
 
     private var player: MediaPlayer? = null
+
+    private var exerciseAdapter: ExerciseStatusAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityExerciseBinding.inflate(layoutInflater)
@@ -60,7 +63,14 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         }
 
         setupRestView()
+        setupExerciseStatusRecyclerView()
 
+    }
+
+    private fun setupExerciseStatusRecyclerView(){
+        exerciseAdapter = ExerciseStatusAdapter(exerciseList!!)
+        binding?.rvExerciseStatus?.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
+        binding?.rvExerciseStatus?.adapter = exerciseAdapter
     }
 
 
@@ -136,8 +146,13 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             }
 
             override fun onFinish() {
-
                 currectExercisePosition++
+
+                exerciseList!![currectExercisePosition].setIsSelected(true)
+
+                // Verifica se i dati della recycleview sono cambiati
+                exerciseAdapter!!.notifyDataSetChanged()
+
                 setupExerciseView()
             }
 
@@ -158,6 +173,11 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             }
 
             override fun onFinish() {
+                exerciseList!![currectExercisePosition].setIsSelected(false)
+                exerciseList!![currectExercisePosition].setIsCompleted(true)
+                // Verifica se i dati della recycleview sono cambiati
+                exerciseAdapter!!.notifyDataSetChanged()
+
                 if(currectExercisePosition < exerciseList?.size!! - 1){
                     setupRestView()
                 }else{
