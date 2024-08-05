@@ -9,8 +9,9 @@ class MainAdapter(val taskList:List<Task>):RecyclerView.Adapter<MainAdapter.Main
 
     inner class MainViewHolder(val itemBinding: RecyclerviewItemBinding) : RecyclerView.ViewHolder(itemBinding.root) {
         fun bindItem(task: Task) {
-            itemBinding.tvTitle.text = task.title
+            itemBinding.tvTitle.text =  task.title
             itemBinding.tvTime.text = task.timestamp
+
         }
     }
 

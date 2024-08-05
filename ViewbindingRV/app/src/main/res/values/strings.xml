@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ViewbindingRV</string>
+    <string name="title_label">Task Name: \u0020 </string>
+    <string name="timestamp_label">TimeStamp: \u0020 </string>
 </resources>
