@@ -2,8 +2,6 @@ package com.example.a7minutesworkout
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.FrameLayout
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.a7minutesworkout.databinding.ActivityMainBinding
 

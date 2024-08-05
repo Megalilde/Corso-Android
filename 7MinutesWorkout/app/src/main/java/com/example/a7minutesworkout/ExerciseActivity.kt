@@ -1,22 +1,20 @@
 package com.example.a7minutesworkout
 
+import android.app.Dialog
+import android.content.Intent
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.provider.MediaStore.Audio.Media
 import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.a7minutesworkout.databinding.ActivityExerciseBinding
-import com.example.a7minutesworkout.databinding.ActivityMainBinding
+import com.example.a7minutesworkout.databinding.DialogCustomBackConfirmationBinding
+
 import java.util.Locale
 
 class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
@@ -25,9 +23,12 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     private var restTimer: CountDownTimer? = null
     private var restProgress: Int = 0
+    private var restTimerDuration: Long = 10
 
     private var exerciseTimer: CountDownTimer? = null
     private var eserciseProgress: Int = 0
+    private var exerciseTimerDuration: Long = 30
+
 
     private var exerciseList: MutableList<ExerciseModel>? = null
     private var currectExercisePosition = -1
@@ -46,25 +47,42 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         // Setta l'action bar siccome inizialmente nel themes disabilitato
         setSupportActionBar(binding?.toolbarExercise)
 
-
         // Serve per abilitare la freccia indietro sull'action bar
         if(supportActionBar != null){
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        }
+
+        binding?.toolbarExercise?.setNavigationOnClickListener {
+            customDialogForBackButton()
         }
 
         exerciseList = Constants.defaultExerciseList()
 
         tts = TextToSpeech(this,this)
 
-
-
-        binding?.toolbarExercise?.setNavigationOnClickListener {
-            onBackPressed()
-        }
-
         setupRestView()
         setupExerciseStatusRecyclerView()
 
+    }
+
+    private fun customDialogForBackButton(){
+        // Prendo il dialog di default
+        val customDialog = Dialog(this)
+        // Prendo la binding della view che ho creato
+        val dialogBinding = DialogCustomBackConfirmationBinding.inflate(layoutInflater)
+        // Setto il dialog di defailt com il mio
+        customDialog.setContentView(dialogBinding.root)
+        // Se clicco fuori dalla customDialog
+        customDialog.setCanceledOnTouchOutside(false)
+        dialogBinding.btYes.setOnClickListener {
+            customDialog.dismiss()
+            this@ExerciseActivity.finish()
+        }
+
+        dialogBinding.btNo.setOnClickListener {
+            customDialog.dismiss()  // Rimuoviamo il dialog
+        }
+        customDialog.show()
     }
 
     private fun setupExerciseStatusRecyclerView(){
@@ -138,7 +156,7 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         binding?.progressBar?.progress = restProgress
 
         // Voglio che ogni 1000 millisecondi esegue il Metodo della durata totale di 10000 millisecondi
-        restTimer = object: CountDownTimer(10000,1000){
+        restTimer = object: CountDownTimer(restTimerDuration * 1000,1000){
             override fun onTick(p0: Long) {
                 restProgress++;
                 binding?.progressBar?.progress = 10 - restProgress
@@ -165,7 +183,7 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         binding?.progressBarExercise?.progress = eserciseProgress
 
         // Voglio che ogni 1000 millisecondi esegue il Metodo della durata totale di 30000 millisecondi
-        exerciseTimer = object: CountDownTimer(30000,1000){
+        exerciseTimer = object: CountDownTimer(exerciseTimerDuration * 1000,1000){
             override fun onTick(p0: Long) {
                 eserciseProgress++;
                 binding?.progressBarExercise?.progress = 30 - eserciseProgress
@@ -173,15 +191,21 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             }
 
             override fun onFinish() {
-                exerciseList!![currectExercisePosition].setIsSelected(false)
-                exerciseList!![currectExercisePosition].setIsCompleted(true)
-                // Verifica se i dati della recycleview sono cambiati
-                exerciseAdapter!!.notifyDataSetChanged()
 
                 if(currectExercisePosition < exerciseList?.size!! - 1){
+                    exerciseList!![currectExercisePosition].setIsSelected(false)
+                    exerciseList!![currectExercisePosition].setIsCompleted(true)
+
+                    // Verifica se i dati della recycleview sono cambiati
+                    exerciseAdapter!!.notifyDataSetChanged()
+
                     setupRestView()
                 }else{
                     Toast.makeText(this@ExerciseActivity,"Congratulation!!",Toast.LENGTH_LONG).show()
+                    // Qui andrà intent per passare alla schermata finish
+                    finish()
+                    val intent = Intent(this@ExerciseActivity, FinishActivity::class.java)
+                    startActivity(intent)
                 }
 
             }

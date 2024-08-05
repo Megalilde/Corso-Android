@@ -32,6 +32,7 @@ class ExerciseStatusAdapter(val items: MutableList<ExerciseModel>) : RecyclerVie
                 holder.tvItem.setTextColor(Color.parseColor("#212121"))
             }
             model.getIsCompleted() ->{
+                holder.tvItem.background
                 holder.tvItem.background = ContextCompat.getDrawable(holder.itemView.context,R.drawable.item_circular_color_accent_background)
                 holder.tvItem.setTextColor(Color.parseColor("#FFFFFF"))
             }
