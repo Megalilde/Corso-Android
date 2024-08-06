@@ -21,8 +21,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding?.root)
 
-        // 4
-        val adapter = MainAdapter(TaskList.taskList)
+        val adapter = MainAdapter(TaskList.taskList,this)
         //binding?.taskRv?.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
         binding?.taskRv?.adapter = adapter
     }
