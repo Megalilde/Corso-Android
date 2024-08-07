@@ -65,6 +65,7 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     }
 
+    // Per la creazione del customDialog box, altrimenti AlertDialog.
     private fun customDialogForBackButton(){
         // Prendo il dialog di default
         val customDialog = Dialog(this)
