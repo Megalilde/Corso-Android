@@ -1,15 +1,11 @@
 package com.example.roomdemo
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import kotlinx.coroutines.flow.Flow
-
 
 @Dao
 interface EmployeeDao {
+
     @Insert
     suspend fun insert(employeeEntity: EmployeeEntity)
 
@@ -19,17 +15,9 @@ interface EmployeeDao {
     @Delete
     suspend fun delete(employeeEntity: EmployeeEntity)
 
+    @Query("SELECT * FROM `employee-table`")
+    fun fetchAllEmployee(): Flow<List<EmployeeEntity>>
 
-    // Flow viene utilizzato per mantenere il valore che può essere cambiato a runtime
-
-    @Query("SELECT * FROM `employee-table` ")
-    fun fetchAllEmployees():Flow<List<EmployeeEntity>>
-
-
-    // Flow viene utilizzato per mantenere il valore che può essere cambiato a runtime
-
-    @Query("SELECT * FROM `employee-table` where id = :id ")
-    fun fetchEmployeeById(id: Int):Flow<EmployeeEntity>
-
-
+    @Query("SELECT * FROM `employee-table` WHERE id = :id")
+    fun fetchEmployeeById(id: Int): Flow<EmployeeEntity>
 }

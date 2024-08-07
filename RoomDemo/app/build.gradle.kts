@@ -1,7 +1,7 @@
 plugins {
+    alias(libs.plugins.ksp)
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-    id("org.jetbrains.kotlin.kapt")
 }
 
 android {
@@ -37,26 +37,30 @@ android {
     buildFeatures{
         viewBinding = true
     }
+
+
+
 }
 
 dependencies {
+    val room_version = "2.5.1" // Update Room version as needed
+    val activityVersion = "1.3.1" // Update activity version as needed
 
-    val room_version = "2.3.0"
-    val activityVersion = "1.3.1"
-
-    // Room and Lifecycle dependencies
-    implementation("androidx.room:room-runtime:$room_version")
-    kapt("androidx.room:room-compiler:$room_version")
-    // Kotlin extensions for coroutine support with room
+    // Room dependencies
     implementation("androidx.room:room-ktx:$room_version")
-    // Kotlin extensions for coroutine support with activities
-    implementation("androidx.activity:activity-ktx:$activityVersion")
 
+    // Kotlin extensions for activities
+    implementation("androidx.activity:activity-ktx:$activityVersion")
+    implementation(libs.room.runtime)
+    ksp(libs.room.compiler)
+    // Core and UI dependencies
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+
+    // Testing dependencies
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

@@ -24,7 +24,7 @@ abstract class EmployeeDatabase : RoomDatabase() {
                 var instance = INSTANCE
 
                 // Cancella de ricostruisce il database (di norma non si fa)
-                if(instance == null){
+                if (instance == null) {
                     instance = Room.databaseBuilder(
                         context.applicationContext,
                         EmployeeDatabase::class.java,
