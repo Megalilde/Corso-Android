@@ -18,10 +18,20 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding?.root)
+
+        // Esso permette di interaggire con la tabella del database chiamata EmployeeEntity
+        // Quindi per eseguire le query questo è obbligatorio.
         val employeeDao = (application as EmployeeApp).db.employeeDao()
 
+        deleteAll(employeeDao)
         binding?.btnAdd?.setOnClickListener {
             addRecord(employeeDao)
+        }
+    }
+    private fun deleteAll(employeeDao: EmployeeDao) {
+        lifecycleScope.launch {
+            employeeDao.deleteAll()
+            Toast.makeText(applicationContext, "All records deleted", Toast.LENGTH_LONG).show()
         }
     }
 
