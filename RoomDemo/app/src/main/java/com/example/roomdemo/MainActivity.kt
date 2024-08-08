@@ -1,12 +1,15 @@
 package com.example.roomdemo
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.roomdemo.databinding.ActivityMainBinding
 import kotlinx.coroutines.launch
 
@@ -27,7 +30,20 @@ class MainActivity : AppCompatActivity() {
         binding?.btnAdd?.setOnClickListener {
             addRecord(employeeDao)
         }
+
+        lifecycleScope.launch {
+
+            // Using collect perchè al metodo della fetch utilizziamo flow
+            // Nota employeeList perche è una lista di EmployeeDao
+            employeeDao.fetchAllEmployee().collect{ employeeList ->
+
+                setupListOfDataIntoRecyclerView(employeeList,employeeDao)
+            }
+        }
+
     }
+
+
     private fun deleteAll(employeeDao: EmployeeDao) {
         lifecycleScope.launch {
             employeeDao.deleteAll()
@@ -48,6 +64,22 @@ class MainActivity : AppCompatActivity() {
             }
         }else{
             Toast.makeText(applicationContext, "Name or Email cannot be blank",  Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun setupListOfDataIntoRecyclerView(employeesList: List<EmployeeEntity>, employeeDao: EmployeeDao){
+        if(employeesList.isNotEmpty()){
+            val itemAdapter = ItemAdapter(employeesList,
+
+
+                )
+            binding?.rvItemsList?.layoutManager = LinearLayoutManager(this)
+            binding?.rvItemsList?.adapter = itemAdapter
+            binding?.rvItemsList?.visibility = View.VISIBLE
+            binding?.tvNoRecordsAvailable?.visibility = View.GONE
+        }else{
+            binding?.rvItemsList?.visibility = View.GONE
+            binding?.tvNoRecordsAvailable?.visibility = View.VISIBLE
         }
     }
 }

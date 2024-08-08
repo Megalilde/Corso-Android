@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
@@ -29,9 +30,9 @@ class MainAdapter(val taskList:List<Task>, val context: Context):RecyclerView.Ad
         holder.itemBinding.root.setOnClickListener {
             Log.d("MainAdapter", "Clicked: ${task.title}")
 
-            // Perchè il Toast non funziona???
-            Toast.makeText(context, "Clicked: ${task.title}", Toast.LENGTH_LONG).show()
-            showTaskDialog(task)
+            // Toast.makeText(context, "Clicked: ${task.title}", Toast.LENGTH_LONG).show()
+            // showTaskDialog(task)
+            showSnackBar(holder.itemBinding.root, task)
         }
 
     }
@@ -49,5 +50,11 @@ class MainAdapter(val taskList:List<Task>, val context: Context):RecyclerView.Ad
         }
         val alertDialog = dialogBuilder.create()
         alertDialog.show()
+
+    }
+
+    private fun showSnackBar(view: View, task:Task){
+        var snackbar = Snackbar.make(view, "${task.title} \n" +
+                "${task.timestamp}", Snackbar.LENGTH_SHORT).show()
     }
 }

@@ -72,7 +72,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tvName"
-        android:visibility="visible"
+        android:visibility="gone"
         tools:visibility="visible"/>
     <TextView
         android:id="@+id/tvNoRecordsAvailable"
@@ -80,7 +80,7 @@
         android:layout_height="wrap_content"
         android:text="No records available!!!"
         android:textSize="18sp"
-        android:visibility="gone"
+        android:visibility="visible"
         tools:visibility="visible"
         android:gravity="center"
         app:layout_constraintTop_toBottomOf="@id/btnAdd"
