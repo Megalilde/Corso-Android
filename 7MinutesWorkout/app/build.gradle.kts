@@ -1,4 +1,5 @@
 plugins {
+    alias(libs.plugins.ksp)
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
 }
@@ -41,6 +42,17 @@ android {
 
 dependencies {
 
+    val room_version = "2.5.1" // Update Room version as needed
+    val activityVersion = "1.3.1" // Update activity version as needed
+
+    // Room dependencies
+    implementation("androidx.room:room-ktx:$room_version")
+
+    // Kotlin extensions for activities
+    implementation("androidx.activity:activity-ktx:$activityVersion")
+    implementation(libs.room.runtime)
+    ksp(libs.room.compiler)
+    // Core and UI dependencies
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
