@@ -1,4 +1,7 @@
-package com.example.myquizapp
+package com.example.myquizapp.utils
+
+import com.example.myquizapp.model.Question
+import com.example.myquizapp.R
 
 object Constants {
 

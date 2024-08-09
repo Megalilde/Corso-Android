@@ -1,4 +1,4 @@
-package com.example.myquizapp
+package com.example.myquizapp.model
 
 
 // Modello su cui immagazzinare i dati.

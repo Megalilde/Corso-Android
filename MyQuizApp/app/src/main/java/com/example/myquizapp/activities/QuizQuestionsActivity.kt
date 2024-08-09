@@ -1,22 +1,19 @@
-package com.example.myquizapp
+package com.example.myquizapp.activities
 
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import org.w3c.dom.Text
+import com.example.myquizapp.R
+import com.example.myquizapp.model.Question
+import com.example.myquizapp.utils.Constants
 
 /* E stata utilizzata View.OnClickListener come interfaccia per eseguire azioni specifiche al click su più view e
 quindi un unico metodo per gestire i click sulle varie interfacce, invece di implementarle singolarmente per ogni
@@ -123,7 +120,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
             // Setta gli stili delle TextView e background
             option.setTextColor(Color.parseColor("#7A8089"))
             option.typeface = Typeface.DEFAULT
-            option.background = ContextCompat.getDrawable(this,R.drawable.default_option_border_bg)
+            option.background = ContextCompat.getDrawable(this, R.drawable.default_option_border_bg)
         }
 
     }
@@ -137,7 +134,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
         mSelectedOptionPosition = selectedOptionNum
         tv.setTextColor(Color.parseColor("#363A43"))
         tv.setTypeface(tv.typeface, Typeface.BOLD)
-        tv.background = ContextCompat.getDrawable(this,R.drawable.selected_option_border_bg)
+        tv.background = ContextCompat.getDrawable(this, R.drawable.selected_option_border_bg)
 
 
     }
