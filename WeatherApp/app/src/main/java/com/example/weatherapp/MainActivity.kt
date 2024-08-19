@@ -2,6 +2,7 @@ package com.example.weatherapp
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -17,16 +18,23 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.example.weatherapp.models.WeatherResponse
+import com.example.weatherapp.network.WeatherService
 import com.google.android.gms.location.*
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+import retrofit2.*
+import retrofit2.converter.gson.GsonConverterFactory
+import java.nio.file.WatchService
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
+
+    private var mProgressDialog: Dialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,16 +100,55 @@ class MainActivity : AppCompatActivity() {
 
             val longitude = lastLocation.longitude
             Log.i("Current Longitude", "$longitude")
-            getLocationWeatherDetails()
+            getLocationWeatherDetails(latitude,longitude)
         }
     }
 
-    private fun getLocationWeatherDetails(){
+    private fun getLocationWeatherDetails(latitude: Double, longitude: Double){
         if(Constants.isNetworkAvailable(this)){
-            Toast.makeText(this,
-                "You have connected to the internet. Now you can make an api call.",
-                Toast.LENGTH_SHORT
-            ).show()
+            // Vedere la documentazione di retrofit
+            // addConverter perchè li dobbiamo convertire nel formato giusto.
+            // Passiamo la url di base
+            val retrofit: Retrofit = Retrofit.Builder().baseUrl(Constants.BASE_URL).addConverterFactory(
+                GsonConverterFactory.create()).build()
+
+            // Settiamo il service, ovvero le query della chiamata e cosa ci restituisce.
+            val service: WeatherService = retrofit.create<WeatherService>(WeatherService::class.java)
+
+            // Con il settaggio del service eseguiamo la chiamata fatta con enqueue()
+            val listCall: Call<WeatherResponse> = service.getWeather(
+                latitude, longitude, Constants.METRIC_UNIT, Constants.APP_ID
+            )
+            showCustomProgressDialog()
+
+            
+            listCall.enqueue(object: Callback<WeatherResponse>{
+                override fun onResponse(
+                    call: Call<WeatherResponse>,
+                    response: Response<WeatherResponse>
+                ) {
+                    if(response!!.isSuccessful){
+                        hideProgressDialog()
+                        val weatherList: WeatherResponse? = response.body()
+                        Log.i("Response Result", "$weatherList")
+                    } else{
+                        val rc = response.code()
+                        when(rc){
+                            400 -> Log.e("Error 400", "Bad Request - Check your request parameters.")
+                            401 -> Log.e("Error 401", "Unauthorized - Check your API key.")
+                            403 -> Log.e("Error 403", "Forbidden - You might not have access.")
+                            404 -> Log.e("Error 404", "Not Found - The endpoint might be wrong.")
+                            500 -> Log.e("Error 500", "Internal Server Error - Problem with the server.")
+                            else -> Log.e("Error", "Unexpected error: $rc")
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<WeatherResponse>, t: Throwable) {
+                    Log.e("Errorrrrrrrr", t!!.message.toString())
+                }
+
+            })
         } else {
             Toast.makeText(this,
                 "No internet connection available",
@@ -131,5 +178,17 @@ class MainActivity : AppCompatActivity() {
     private fun isLocationEnabled(): Boolean {
         val locationManager: LocationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+    }
+
+    private fun showCustomProgressDialog(){
+        mProgressDialog = Dialog(this)
+        mProgressDialog!!.setContentView(R.layout.dialog_custom_progress)
+        mProgressDialog!!.show()
+    }
+
+    private fun hideProgressDialog(){
+        if(mProgressDialog != null){
+            mProgressDialog!!.dismiss()
+        }
     }
 }

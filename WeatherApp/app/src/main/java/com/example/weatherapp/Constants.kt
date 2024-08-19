@@ -8,6 +8,10 @@ import android.os.Build
 object Constants{
 
 
+    const val APP_ID: String = "71658f858fb9e335f7910cad8aa9bdaa"
+    const val BASE_URL: String = "https://api.openweathermap.org/data/"
+    const val METRIC_UNIT: String = "metric"
+
     // Questo serve per vedere se abbiamo internet // Vedi stackOverflow
     // Nota senza internet ovviamente non puoi fare la chiamate api
     fun isNetworkAvailable(context: Context): Boolean{
