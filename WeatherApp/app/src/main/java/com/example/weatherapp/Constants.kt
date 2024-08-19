@@ -12,6 +12,10 @@ object Constants{
     const val BASE_URL: String = "https://api.openweathermap.org/data/"
     const val METRIC_UNIT: String = "metric"
 
+    const val PREFERENCE_NAME = "WeatherAppPreference"
+    const val WEATHER_RESPONSE_DATA = "weather_response_data"
+
+
     // Questo serve per vedere se abbiamo internet // Vedi stackOverflow
     // Nota senza internet ovviamente non puoi fare la chiamate api
     fun isNetworkAvailable(context: Context): Boolean{
