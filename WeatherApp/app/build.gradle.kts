@@ -37,6 +37,8 @@ android {
 
 dependencies {
 
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson)
     implementation(libs.dexter)
     implementation(libs.playServicesLocation)
     implementation(libs.androidx.core.ktx)
