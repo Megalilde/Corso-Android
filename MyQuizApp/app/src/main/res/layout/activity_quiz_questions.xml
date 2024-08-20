@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:contentDescription="Quiz Image"
+            android:contentDescription="@string/quiz_image"
             tools:src="@drawable/ic_flag_of_germany"/>
         <LinearLayout
             android:layout_width="match_parent"
@@ -53,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="0/9"
+                android:text="@string/_0_9"
                 android:padding="16dp"
                 android:textSize="14sp"/>
 
@@ -109,7 +109,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="SUBMIT"
+            android:text="@string/submit"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold"

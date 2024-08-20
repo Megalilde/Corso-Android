@@ -26,8 +26,12 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
 
     // Dati passati dall'intent
     private var mUserName : String? = null
+    private var mUserSurname : String? = null
     private var mCurrectAnswer : Int = 0
 
+
+
+    ///////////////////////////////////////////////////////////
     private var tvQuestion: TextView? = null
     private var ivImage: ImageView? = null
 
@@ -47,6 +51,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
         setContentView(R.layout.activity_quiz_questions)
 
         mUserName = intent.getStringExtra(Constants.USER_NAME)
+        mUserSurname= intent.getStringExtra(Constants.USER_SURNAME)
 
 
         tvQuestion = findViewById(R.id.tvQuestion)
@@ -177,6 +182,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                     else -> {
                         val intent = Intent(this, ResultActivity::class.java)
                         intent.putExtra(Constants.USER_NAME, mUserName)
+                        intent.putExtra(Constants.USER_SURNAME,mUserSurname)
                         intent.putExtra(Constants.CORRECT_ANSWER, mCurrectAnswer)
                         intent.putExtra(Constants.TOTAL_QUESTIONS, mQuestionList?.size)
                         startActivity(intent)

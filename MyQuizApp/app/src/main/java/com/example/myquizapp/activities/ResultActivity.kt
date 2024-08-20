@@ -14,10 +14,12 @@ class ResultActivity : AppCompatActivity() {
         setContentView(R.layout.activity_result)
 
         val tvName: TextView = findViewById(R.id.tvName)
+        val tvSurname: TextView = findViewById(R.id.tvSurname)
         val tvScore: TextView = findViewById(R.id.tvScore)
         val btFinish: TextView = findViewById(R.id.btFinish)
 
         tvName.text = intent.getStringExtra(Constants.USER_NAME)
+        tvSurname.text = intent.getStringExtra(Constants.USER_SURNAME)
         val totalQuestions = intent.getIntExtra(Constants.TOTAL_QUESTIONS,0)
         val correctAnswers = intent.getIntExtra(Constants.CORRECT_ANSWER,0)
 

@@ -17,7 +17,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val btnStart : Button = findViewById(R.id.btn_start)
-        val etName : EditText = findViewById(R.id.etName)
+        val etName: EditText = findViewById(R.id.etName)
+        val etSurname: EditText = findViewById(R.id.etSurname)
+
         btnStart.setOnClickListener {
             // Utilizza 'it' per accedere alla vista cliccata
             if(etName.text.isEmpty()){
@@ -27,6 +29,7 @@ class MainActivity : AppCompatActivity() {
                 //Per eseguirlo startActivity.Esegui finish() per finire l'attivita.
                 val intent = Intent(this, QuizQuestionsActivity::class.java)
                 intent.putExtra(Constants.USER_NAME, etName.text.toString())
+                intent.putExtra(Constants.USER_SURNAME, etSurname.text.toString())
                 startActivity(intent)
                 finish()
             }
