@@ -10,5 +10,6 @@ object Constants {
     const val TOTAL_QUESTIONS:  String = "total_questions"
     const val CORRECT_ANSWER: String = "correct_answer"
     const val WRONG_ANSWER: String = "wrong_answer"
+    const val TOTAL_TIME: String = "total_time"
 
 }

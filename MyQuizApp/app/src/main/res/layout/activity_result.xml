@@ -72,6 +72,14 @@
         android:textSize="22sp"
         android:textStyle="bold"
         tools:text="Your Score is 9 out of 10"/>
+    <TextView
+        android:id="@+id/tvScoreSeconds"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/secondary_text_dark"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        tools:text="You take 30 seconds to complete!"/>
     <Button
         android:id="@+id/btFinish"
         android:layout_width="match_parent"

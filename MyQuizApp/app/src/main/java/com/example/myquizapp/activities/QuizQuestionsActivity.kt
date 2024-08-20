@@ -4,11 +4,13 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.myquizapp.R
@@ -25,12 +27,14 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
     private var mCurrentPosition: Int = 1
     private var mQuestionList: MutableList<Question>? = null
     private var mSelectedOptionPosition: Int = 0
+    private var mTimer: CountDownTimer? = null
 
     // Dati passati dall'intent
     private var mUserName : String? = null
     private var mUserSurname : String? = null
     private var mCorrectAnswer : Int = 0
     private var mWrongAnswer : Int = 0
+    private var mCounterSeconds: Int = 1
 
 
     private var binding: ActivityQuizQuestionsBinding? = null
@@ -53,6 +57,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
         mQuestionList = QuestionList().getQuestions()
 
         setQuestion()
+        setupTimer()
         defaultOptionsView()
 
 
@@ -64,8 +69,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
         defaultOptionsView()
         binding?.tvQuestion?.text = question.question
         binding?.ivImage?.setImageResource(question.image)
-        binding?.progressBar?.progress = mCurrentPosition
-        binding?.tvProgress?.text = "$mCurrentPosition/${binding?.progressBar?.max}"
+        binding?.tvProgress?.text = "Question $mCurrentPosition/${mQuestionList?.size}"
         binding?.tvOptionOne?.text = question.optionOne
         binding?.tvOptionTwo?.text = question.optionTwo
         binding?.tvOptionTree?.text = question.optionTree
@@ -161,6 +165,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                         intent.putExtra(Constants.CORRECT_ANSWER, mCorrectAnswer)
                         intent.putExtra(Constants.WRONG_ANSWER, mWrongAnswer)
                         intent.putExtra(Constants.TOTAL_QUESTIONS, mQuestionList?.size)
+                        intent.putExtra(Constants.TOTAL_TIME, mCounterSeconds)
                         startActivity(intent)
                         finish()
                     }
@@ -211,5 +216,21 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
 
             }
         }
+    }
+
+
+    private fun setupTimer(){
+        mTimer = object : CountDownTimer(360 * 1000, 1000) {
+
+            override fun onTick(millisUntilFinished: Long) {
+                mCounterSeconds++
+                binding?.tvTimer?.text = mCounterSeconds.toString() + "S"
+
+            }
+
+            override fun onFinish() {
+                Toast.makeText(this@QuizQuestionsActivity,"Tempo Scaduto", Toast.LENGTH_LONG).show()
+            }
+        }.start()
     }
 }
