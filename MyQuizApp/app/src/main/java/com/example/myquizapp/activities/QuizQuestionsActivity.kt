@@ -12,7 +12,9 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.myquizapp.R
+import com.example.myquizapp.databinding.ActivityQuizQuestionsBinding
 import com.example.myquizapp.model.Question
+import com.example.myquizapp.model.QuestionList
 import com.example.myquizapp.utils.Constants
 
 /* E stata utilizzata View.OnClickListener come interfaccia per eseguire azioni specifiche al click su più view e
@@ -29,53 +31,24 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
     private var mUserSurname : String? = null
     private var mCurrectAnswer : Int = 0
 
-
-
-    ///////////////////////////////////////////////////////////
-    private var tvQuestion: TextView? = null
-    private var ivImage: ImageView? = null
-
-    private var progressBar: ProgressBar? = null
-    private var tvProgress: TextView? = null
-
-    private var tvOptionOne: TextView? = null
-    private var tvOptionTwo: TextView? = null
-    private var tvOptionTree: TextView? = null
-    private var tvOptionFour: TextView? = null
-
-    private var btnSubmit: Button? = null
+    private var binding: ActivityQuizQuestionsBinding? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_quiz_questions)
+        binding = ActivityQuizQuestionsBinding.inflate(layoutInflater)
+        setContentView(binding?.root)
 
         mUserName = intent.getStringExtra(Constants.USER_NAME)
         mUserSurname= intent.getStringExtra(Constants.USER_SURNAME)
 
+        binding?.tvOptionOne?.setOnClickListener(this)
+        binding?.tvOptionTwo?.setOnClickListener(this)
+        binding?.tvOptionTree?.setOnClickListener(this)
+        binding?.tvOptionFour?.setOnClickListener(this)
+        binding?.btnSubmit?.setOnClickListener(this)
 
-        tvQuestion = findViewById(R.id.tvQuestion)
-        ivImage = findViewById(R.id.ivImage)
-
-        progressBar = findViewById(R.id.progressBar)
-        tvProgress = findViewById(R.id.tvProgress)
-
-        tvOptionOne = findViewById(R.id.tvOptionOne)
-        tvOptionTwo = findViewById(R.id.tvOptionTwo)
-        tvOptionTree = findViewById(R.id.tvOptionTree)
-        tvOptionFour = findViewById(R.id.tvOptionFour)
-        btnSubmit = findViewById(R.id.btnSubmit)
-
-        tvOptionOne?.setOnClickListener(this)
-        tvOptionTwo?.setOnClickListener(this)
-        tvOptionTree?.setOnClickListener(this)
-        tvOptionFour?.setOnClickListener(this)
-        btnSubmit?.setOnClickListener(this)
-
-
-
-        mQuestionList = Constants.getQuestions()
-
+        mQuestionList = QuestionList().getQuestions()
 
         setQuestion()
         defaultOptionsView()
@@ -87,19 +60,19 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
     private fun setQuestion() {
         val question: Question = mQuestionList!![mCurrentPosition - 1]
         defaultOptionsView()
-        tvQuestion?.text = question.question
-        ivImage?.setImageResource(question.image)
-        progressBar?.progress = mCurrentPosition
-        tvProgress?.text = "$mCurrentPosition/${progressBar?.max}"
-        tvOptionOne?.text = question.optionOne
-        tvOptionTwo?.text = question.optionTwo
-        tvOptionTree?.text = question.optionTree
-        tvOptionFour?.text = question.optionFour
+        binding?.tvQuestion?.text = question.question
+        binding?.ivImage?.setImageResource(question.image)
+        binding?.progressBar?.progress = mCurrentPosition
+        binding?.tvProgress?.text = "$mCurrentPosition/${binding?.progressBar?.max}"
+        binding?.tvOptionOne?.text = question.optionOne
+        binding?.tvOptionTwo?.text = question.optionTwo
+        binding?.tvOptionTree?.text = question.optionTree
+        binding?.tvOptionFour?.text = question.optionFour
 
         if(mCurrentPosition == mQuestionList!!.size){
-            btnSubmit?.text = "FINISH"
+            binding?.btnSubmit?.text = "FINISH"
         }else{
-            btnSubmit?.text = "SUBMIT"
+            binding?.btnSubmit?.text = "SUBMIT"
 
         }
     }
@@ -109,16 +82,16 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
     private fun defaultOptionsView(){
         val options = mutableListOf<TextView>()
         //Esegui una funzione sull'oggetto considerato se esso non è vuoto, alla posizione 0 aggiunti esso.
-        tvOptionOne?.let {
+        binding?.tvOptionOne?.let {
             options.add(0,it)
         }
-        tvOptionTwo?.let {
+        binding?.tvOptionTwo?.let {
             options.add(1,it)
         }
-        tvOptionTree?.let {
+        binding?.tvOptionTree?.let {
             options.add(2,it)
         }
-        tvOptionFour?.let {
+        binding?.tvOptionFour?.let {
             options.add(3,it)
         }
         for(option in options){
@@ -148,22 +121,22 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(view: View?) {
         when(view?.id){
             R.id.tvOptionOne -> {
-                tvOptionOne?.let {
+                binding?.tvOptionOne?.let {
                     selectedOptionView(it,1)
                 }
             }
             R.id.tvOptionTwo -> {
-                tvOptionTwo?.let {
+                binding?.tvOptionTwo?.let {
                     selectedOptionView(it,2)
                 }
             }
             R.id.tvOptionTree -> {
-                tvOptionTree?.let {
+                binding?.tvOptionTree?.let {
                     selectedOptionView(it,3)
                 }
             }
             R.id.tvOptionFour -> {
-                tvOptionFour?.let {
+                binding?.tvOptionFour?.let {
                     selectedOptionView(it,4)
                 }
             }
@@ -203,9 +176,9 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                 answerView(question.correctAnswer, R.drawable.correct_option_border_bg)
 
                 if (mCurrentPosition == mQuestionList!!.size) {
-                    btnSubmit?.text = "FINISH"
+                    binding?.btnSubmit?.text = "FINISH"
                 } else {
-                    btnSubmit?.text = "GO TO NEXT QUESTION"
+                    binding?.btnSubmit?.text = "GO TO NEXT QUESTION"
                 }
 
                 mSelectedOptionPosition = 0
@@ -218,19 +191,19 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
     private fun answerView(answer:Int, drawableView: Int){
         when(answer){
             1 -> {
-                tvOptionOne?.background = ContextCompat.getDrawable(this,drawableView)
+                binding?.tvOptionOne?.background = ContextCompat.getDrawable(this,drawableView)
 
             }
             2 -> {
-                tvOptionTwo?.background = ContextCompat.getDrawable(this,drawableView)
+                binding?.tvOptionTwo?.background = ContextCompat.getDrawable(this,drawableView)
 
             }
             3 -> {
-                tvOptionTree?.background = ContextCompat.getDrawable(this,drawableView)
+                binding?.tvOptionTree?.background = ContextCompat.getDrawable(this,drawableView)
 
             }
             4 -> {
-                tvOptionFour?.background = ContextCompat.getDrawable(this,drawableView)
+                binding?.tvOptionFour?.background = ContextCompat.getDrawable(this,drawableView)
 
             }
         }
