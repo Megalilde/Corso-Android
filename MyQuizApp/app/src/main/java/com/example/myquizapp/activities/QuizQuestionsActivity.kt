@@ -29,7 +29,9 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
     // Dati passati dall'intent
     private var mUserName : String? = null
     private var mUserSurname : String? = null
-    private var mCurrectAnswer : Int = 0
+    private var mCorrectAnswer : Int = 0
+    private var mWrongAnswer : Int = 0
+
 
     private var binding: ActivityQuizQuestionsBinding? = null
 
@@ -156,7 +158,8 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                         val intent = Intent(this, ResultActivity::class.java)
                         intent.putExtra(Constants.USER_NAME, mUserName)
                         intent.putExtra(Constants.USER_SURNAME,mUserSurname)
-                        intent.putExtra(Constants.CORRECT_ANSWER, mCurrectAnswer)
+                        intent.putExtra(Constants.CORRECT_ANSWER, mCorrectAnswer)
+                        intent.putExtra(Constants.WRONG_ANSWER, mWrongAnswer)
                         intent.putExtra(Constants.TOTAL_QUESTIONS, mQuestionList?.size)
                         startActivity(intent)
                         finish()
@@ -168,8 +171,9 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                 // Verifica se la domanda è quella corretta.
                 if (question!!.correctAnswer != mSelectedOptionPosition) {
                     answerView(mSelectedOptionPosition, R.drawable.wrong_option_border_bg)
+                    mWrongAnswer++
                 }else{
-                    mCurrectAnswer++
+                    mCorrectAnswer++
                 }
 
                 // Nel caso della risposta corretta
