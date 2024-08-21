@@ -224,7 +224,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
 
             override fun onTick(millisUntilFinished: Long) {
                 mCounterSeconds++
-                binding?.tvTimer?.text = mCounterSeconds.toString() + "S"
+                binding?.tvTimer?.text = mCounterSeconds.toString() + " S"
 
             }
 
