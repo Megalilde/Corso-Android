@@ -1,0 +1,25 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Projemanag" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+
+    <style name="CustomButton" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/shape_button_rounded</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="CustomButtonWhite" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/white_border_shape_button_rounded</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+
+
+    <style name="Theme.Projemanag" parent="Base.Theme.Projemanag" />
+
+</resources>
