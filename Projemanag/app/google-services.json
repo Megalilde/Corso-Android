@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "79012347061",
+    "project_id": "projemanag-185a4",
+    "storage_bucket": "projemanag-185a4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:79012347061:android:8d70b103f1ac5fa8dd52fc",
+        "android_client_info": {
+          "package_name": "com.example.projemanag"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7wPzDJNBgo4fL5Ouv-3z5GuJZCLBN2Hc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
