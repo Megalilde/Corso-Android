@@ -8,6 +8,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.projemanag.R
 import com.example.projemanag.databinding.ActivitySignUpBinding
+import com.example.projemanag.firebase.FirestoreClass
+import com.example.projemanag.models.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
@@ -30,6 +32,18 @@ class SignUpActivity : BaseActivity() {
         binding?.btnSignUp?.setOnClickListener{
             registerUser()
         }
+    }
+
+
+    fun userRegisteredSuccess(){
+        Toast.makeText(
+            this,
+            "You have successfully registered",
+            Toast.LENGTH_LONG,
+        ).show()
+        hideProgressDialog()
+        FirebaseAuth.getInstance().signOut()
+        finish()
     }
 
 
@@ -56,19 +70,16 @@ class SignUpActivity : BaseActivity() {
         if(validateForm(name,email,password)){
             showProgressDialog(resources.getString(R.string.please_wait))
             FirebaseAuth.getInstance().createUserWithEmailAndPassword(email,password).addOnCompleteListener { task ->
-                hideProgressDialog()
+
                 if (task.isSuccessful) {
                     val firebaseUser: FirebaseUser = task.result!!.user!!
                     val registeredEmail = firebaseUser.email!!
+                    val user = User(firebaseUser.uid,name,registeredEmail)
 
-                    Toast.makeText(
-                        this,
-                        "$name you have successfullu registere the mail address $registeredEmail",
-                        Toast.LENGTH_LONG,
-                    ).show()
+                    // Molto importanti permette di aggiungere i campi di User nella collezione.
+                    // per immagazzinare i dati.
+                    FirestoreClass().registerUser(this,user)
 
-                    FirebaseAuth.getInstance().signOut()
-                    finish()
                 } else {
                     Log.i("Email: ", "${task.exception!!.message}")
                     Toast.makeText(

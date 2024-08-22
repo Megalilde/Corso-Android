@@ -9,6 +9,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.projemanag.R
 import com.example.projemanag.databinding.ActivitySignInBinding
+import com.example.projemanag.firebase.FirestoreClass
+import com.example.projemanag.models.User
 import com.google.firebase.auth.FirebaseAuth
 
 class SignInActivity : BaseActivity() {
@@ -36,6 +38,12 @@ class SignInActivity : BaseActivity() {
 
     }
 
+    fun signInSuccess(user: User){
+        hideProgressDialog()
+        startActivity(Intent(this,MainActivity::class.java))
+        finish()
+    }
+
     private fun signInRegisteredUser(){
         val email: String = binding?.etEmail?.text.toString().trim{ it <= ' '}
         val password: String = binding?.etPassword?.text.toString().trim{ it <= ' '}
@@ -46,10 +54,8 @@ class SignInActivity : BaseActivity() {
                 .addOnCompleteListener(this) { task ->
                     hideProgressDialog()
                     if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
-                        Log.d("Sign in", "signInWithEmail:success")
-                        val user = auth.currentUser
-                        startActivity(Intent(this,MainActivity::class.java))
+
+                        FirestoreClass().signInUser(this@SignInActivity)
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w("Sign in", "signInWithEmail:failure", task.exception)
