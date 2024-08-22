@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.projemanag.databinding.ActivityIntroBinding
 
 
-class IntroActivity : AppCompatActivity() {
+class IntroActivity : BaseActivity() {
 
     private var binding: ActivityIntroBinding? = null
 
