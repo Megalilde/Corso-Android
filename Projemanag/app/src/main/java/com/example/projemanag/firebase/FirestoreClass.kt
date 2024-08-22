@@ -9,6 +9,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 
 
+// Tutte questi informazioni dei metodi sono presenti nella documentazione.
+
 // Per immagazzinare i dati nel db del cloud in maniera tal, se vogliamo cambiare esempio foto del profilo, lo possiamo fare.
 class FirestoreClass {
 
