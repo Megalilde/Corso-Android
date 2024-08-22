@@ -61,14 +61,21 @@ class SignUpActivity : BaseActivity() {
                     val firebaseUser: FirebaseUser = task.result!!.user!!
                     val registeredEmail = firebaseUser.email!!
 
-                    Log.i(
-                        "Email ",
-                        "$name you have successfullu registere the mail address $registeredEmail"
-                    )
+                    Toast.makeText(
+                        this,
+                        "$name you have successfullu registere the mail address $registeredEmail",
+                        Toast.LENGTH_LONG,
+                    ).show()
+
                     FirebaseAuth.getInstance().signOut()
                     finish()
                 } else {
                     Log.i("Email: ", "${task.exception!!.message}")
+                    Toast.makeText(
+                        this,
+                        "Registration failed",
+                        Toast.LENGTH_LONG,
+                    ).show()
 
                 }
             }
