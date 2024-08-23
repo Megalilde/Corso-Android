@@ -22,4 +22,8 @@
 
     <style name="Theme.Projemanag" parent="Base.Theme.Projemanag" />
 
+
+    <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"></style>
+
+    <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light"></style>
 </resources>
