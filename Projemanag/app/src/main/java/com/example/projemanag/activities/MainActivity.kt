@@ -3,12 +3,16 @@ package com.example.projemanag.activities
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
+import com.bumptech.glide.Glide
 import com.example.projemanag.R
 import com.example.projemanag.databinding.ActivityMainBinding
+import com.example.projemanag.firebase.FirestoreClass
+import com.example.projemanag.models.User
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 
@@ -27,6 +31,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
 
         binding?.navView?.setNavigationItemSelectedListener(this)
+
+        FirestoreClass().signInUser(this)
     }
 
 
@@ -60,6 +66,21 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         }
 
     }
+
+    fun updateNavigationUserDetails(user: User){
+        Glide
+            .with(this)
+            .load(user.image)
+            .centerCrop()
+            .placeholder(R.drawable.ic_user_place_holder)
+            .into(findViewById(R.id.nav_user_image))
+
+        val userName: TextView = findViewById(R.id.tv_username)
+        userName.text = user.name
+
+
+    }
+
 
     // Implementando l'interfaccia NavigationView.OnNavigationItemSelectedListener ci permette implementare questo metodo
     // Nota: Item sono uno dei due item che abbiamo aggiunto ovvero profilo e sign out

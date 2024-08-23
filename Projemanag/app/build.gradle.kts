@@ -41,6 +41,8 @@ android {
 
 dependencies {
 
+    implementation(libs.glide)
+    annotationProcessor(libs.glideCompiler)
     implementation(libs.circleimageview)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
