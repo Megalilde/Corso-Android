@@ -3,6 +3,7 @@ package com.example.projemanag.firebase
 import android.app.Activity
 import android.util.Log
 import com.example.projemanag.activities.MainActivity
+import com.example.projemanag.activities.MyProfileActivity
 import com.example.projemanag.activities.SignInActivity
 import com.example.projemanag.activities.SignUpActivity
 import com.example.projemanag.models.User
@@ -35,12 +36,12 @@ class FirestoreClass {
 
 
     // .document ha tutte le informazione dell'utente attuale. uid
-    fun signInUser(activity: Activity){
+    fun loadUserData(activity: Activity){
         mFireStore.collection(Constants.USERS)
             .document(getCurrentUserId())
             .get()
             .addOnSuccessListener { document ->
-                // il metodo toObject far vientare  l'utente in una classe User
+                // il metodo toObject per far diventare l'utente in una classe User // MOLTO IMPORTANTE!
                 val loggedInUser = document.toObject(User::class.java)
 
                 // Quando effettuiamo il signin che attivity gli stiamo passando.
@@ -51,6 +52,9 @@ class FirestoreClass {
                         }
                     }is MainActivity -> {
                             activity.updateNavigationUserDetails(loggedInUser!!)
+                    }
+                    is MyProfileActivity ->{
+                        activity.setUserDataInUI(loggedInUser!!)
                     }
 
 

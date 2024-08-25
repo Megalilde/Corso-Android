@@ -6,7 +6,6 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.WindowManager
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import com.example.projemanag.R
 import com.example.projemanag.databinding.ActivitySignInBinding
 import com.example.projemanag.firebase.FirestoreClass
@@ -55,7 +54,7 @@ class SignInActivity : BaseActivity() {
                     hideProgressDialog()
                     if (task.isSuccessful) {
 
-                        FirestoreClass().signInUser(this@SignInActivity)
+                        FirestoreClass().loadUserData(this@SignInActivity)
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w("Sign in", "signInWithEmail:failure", task.exception)
