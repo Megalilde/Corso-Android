@@ -79,7 +79,7 @@ class FirestoreClass {
             }
     }
 
-
+    // Permette di caricare i dati su firebase
     fun updateUserProfileDate(activity: MyProfileActivity, userHashMap: HashMap<String, Any>){
         mFireStore.collection(Constants.USERS)
             .document(getCurrentUserId())
@@ -87,6 +87,8 @@ class FirestoreClass {
             .addOnSuccessListener {
                 Log.i(activity.javaClass.simpleName, "Profile Data update")
                 Toast.makeText(activity, "Profile updated successfully!", Toast.LENGTH_LONG).show()
+
+                // Fa sparire la dialog
                 activity.profileUpdateSuccess()
             }.addOnFailureListener {
                 e ->

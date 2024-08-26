@@ -17,6 +17,7 @@ import com.example.projemanag.R
 import com.example.projemanag.databinding.ActivityMyProfileBinding
 import com.example.projemanag.firebase.FirestoreClass
 import com.example.projemanag.models.User
+import com.example.projemanag.utils.Constants
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import java.io.IOException
@@ -28,6 +29,7 @@ class MyProfileActivity : BaseActivity() {
     private var binding: ActivityMyProfileBinding? = null
 
     private var mSelectedImageFileUri: Uri? = null
+    private lateinit var mUserDetails: User
 
     private var mProfileImageURL: String = ""
 
@@ -63,6 +65,9 @@ class MyProfileActivity : BaseActivity() {
         binding?.btnUpdate?.setOnClickListener{
             if(mSelectedImageFileUri != null){
                 uploadUserImage()
+            }else{
+                showProgressDialog(resources.getString(R.string.please_wait))
+                updateUserProfileData()
             }
         }
     }
@@ -96,24 +101,10 @@ class MyProfileActivity : BaseActivity() {
     }
 
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if(requestCode == READ_STORAGE_PERMISSION_CODE){
-            if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                showImageChooser()
-            }
-        }else{
-            Toast.makeText(this, "Permission denied for the storage", Toast.LENGTH_LONG).show()
-        }
-    }
-
-
 
     fun setUserDataInUI(user: User){
+        mUserDetails = user
+
         Glide
             .with(this)
             .load(user.image)
@@ -129,6 +120,24 @@ class MyProfileActivity : BaseActivity() {
             binding?.etMobile?.setText(user.mobile.toString())
         }
 
+    }
+    private fun updateUserProfileData(){
+        var userHashMap = HashMap<String, Any>()
+
+        if(mProfileImageURL.isNotEmpty() && mProfileImageURL != mUserDetails.image){
+            userHashMap[Constants.IMAGE] = mProfileImageURL
+        }
+
+        if (binding?.etName.toString() != mUserDetails.name){
+            userHashMap[Constants.NAME] = binding?.etName?.text.toString()
+
+        }
+        if (binding?.etMobile.toString() != mUserDetails.mobile.toString()){
+            userHashMap[Constants.MOBILE] = binding?.etMobile?.text.toString().toLong()
+
+        }
+
+        FirestoreClass().updateUserProfileDate(this, userHashMap)
     }
 
 
@@ -153,7 +162,7 @@ class MyProfileActivity : BaseActivity() {
                         mProfileImageURL = uri.toString()
 
                         hideProgressDialog()
-                        // TODO UpdateUserProfileData
+                        updateUserProfileData()
 
                     }
                 }
@@ -193,5 +202,21 @@ class MyProfileActivity : BaseActivity() {
         }
 
         binding?.toolbarMyProfileActivity?.setNavigationOnClickListener { onBackPressed() }
+    }
+
+    // Metodo relativo ai permessi
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if(requestCode == READ_STORAGE_PERMISSION_CODE){
+            if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                showImageChooser()
+            }
+        }else{
+            Toast.makeText(this, "Permission denied for the storage", Toast.LENGTH_LONG).show()
+        }
     }
 }
