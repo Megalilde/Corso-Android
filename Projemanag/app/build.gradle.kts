@@ -40,8 +40,8 @@ android {
 }
 
 dependencies {
-
     implementation(libs.glide)
+    implementation(libs.firebase.storage.ktx)
     annotationProcessor(libs.glideCompiler)
     implementation(libs.circleimageview)
     implementation(libs.androidx.core.ktx)
@@ -51,6 +51,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.firebase.auth)
     implementation(libs.firebase.firestore)
+    implementation(libs.firebase.storage)
     implementation(libs.firebase.firestore.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

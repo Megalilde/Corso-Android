@@ -12,9 +12,11 @@ constraintlayout = "2.1.4"
 googleGmsGoogleServices = "4.4.2"
 firebaseAuth = "23.0.0"
 firestoreVersion = "24.7.1"
+firebaseStorage = "19.0.0"
 firebaseFirestoreKtx = "25.0.0"
 circleImageView = "3.1.0"
 glide = "4.11.0"
+firebaseStorageKtx = "21.0.0"
 
 
 [libraries]
@@ -27,11 +29,13 @@ material = { group = "com.google.android.material", name = "material", version.r
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
-firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version = "firestoreVersion" }
+firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firestoreVersion" }
+firebase-storage = {group = "com.google.firebase", name = "firebase-storage", version.ref = "firebaseStorage"}
 firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-firestore-ktx", version.ref = "firebaseFirestoreKtx" }
 circleimageview = { group = "de.hdodenhof", name = "circleimageview", version.ref = "circleImageView" }
 glide =  { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 glideCompiler =  { group = "com.github.bumptech.glide", name = "compiler", version.ref = "glide" }
+firebase-storage-ktx = { group = "com.google.firebase", name = "firebase-storage-ktx", version.ref = "firebaseStorageKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
