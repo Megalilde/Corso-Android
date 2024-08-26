@@ -28,6 +28,7 @@ class MyProfileActivity : BaseActivity() {
     private var binding: ActivityMyProfileBinding? = null
 
     private var mSelectedImageFileUri: Uri? = null
+
     private var mProfileImageURL: String = ""
 
     companion object {
@@ -171,6 +172,12 @@ class MyProfileActivity : BaseActivity() {
 
     private fun getFileExtension(uri: Uri?): String?{
         return MimeTypeMap.getSingleton().getExtensionFromMimeType(contentResolver.getType(uri!!))
+    }
+
+
+    fun profileUpdateSuccess(){
+        hideProgressDialog()
+        finish()
     }
 
 
