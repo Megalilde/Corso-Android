@@ -37,6 +37,7 @@ class FirestoreClass {
 
 
     // .document ha tutte le informazione dell'utente attuale. uid
+    // Serve per caricare i dati da firestore sul codice.
     fun loadUserData(activity: Activity){
         mFireStore.collection(Constants.USERS)
             .document(getCurrentUserId())
