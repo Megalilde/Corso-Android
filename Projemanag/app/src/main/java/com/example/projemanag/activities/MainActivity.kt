@@ -13,6 +13,8 @@ import com.example.projemanag.R
 import com.example.projemanag.databinding.ActivityMainBinding
 import com.example.projemanag.firebase.FirestoreClass
 import com.example.projemanag.models.User
+import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 
@@ -37,6 +39,11 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         binding?.navView?.setNavigationItemSelectedListener(this)
 
         FirestoreClass().loadUserData(this)
+
+
+        findViewById<FloatingActionButton>(R.id.fab_create_board).setOnClickListener {
+            startActivity(Intent(this,CreateBoardActivity::class.java))
+        }
     }
 
 
@@ -45,6 +52,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         val toolbar = findViewById<Toolbar>(R.id.toolbar_main_activity)
         setSupportActionBar(findViewById(R.id.toolbar_main_activity))
         toolbar.setNavigationIcon(R.drawable.ic_action_navigation_menu)
+        toolbar.title = resources.getString(R.string.create_board_title)
 
         toolbar.setNavigationOnClickListener {
             toggleDrawer()
