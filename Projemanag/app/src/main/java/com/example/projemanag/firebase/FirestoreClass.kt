@@ -59,7 +59,7 @@ class FirestoreClass {
 
     // .document ha tutte le informazione dell'utente attuale. uid
     // Serve per caricare i dati da firestore sul codice.
-    fun loadUserData(activity: Activity){
+    fun loadUserData(activity: Activity, readBoardsList: Boolean = false){
         mFireStore.collection(Constants.USERS)
             .document(getCurrentUserId())
             .get()
@@ -74,7 +74,7 @@ class FirestoreClass {
                             activity.signInSuccess(loggedInUser)
                         }
                     }is MainActivity -> {
-                            activity.updateNavigationUserDetails(loggedInUser!!)
+                            activity.updateNavigationUserDetails(loggedInUser!!, readBoardsList)
                     }
                     is MyProfileActivity ->{
                         activity.setUserDataInUI(loggedInUser!!)
@@ -99,6 +99,31 @@ class FirestoreClass {
                 }
                 Log.e("SignInUser", "Error writing document", e)
             }
+    }
+
+
+    // Prende dallo storage lo storage by id
+    fun getBoardsList(activity: MainActivity){
+        mFireStore.collection(Constants.BOARDS)
+            .whereArrayContains(Constants.ASSIGNED_TO,getCurrentUserId())
+            .get()
+            .addOnSuccessListener {
+                document ->
+                Log.i(activity.javaClass.simpleName, document.documents.toString())
+                val boardList: ArrayList<Board> = ArrayList()
+                for (i in document.documents){
+                    val board = i.toObject(Board::class.java)!!
+                    board.documentId = i.id
+                    boardList.add(board)
+                }
+                activity.populateBoardsListToUI(boardList)
+            }.addOnFailureListener {
+                e ->
+                activity.hideProgressDialog()
+                Log.e(activity.javaClass.simpleName, "Error while creating a board", e)
+
+        }
+
     }
 
     // Permette di caricare i dati su firebase
