@@ -48,6 +48,10 @@ open class BoardItemsAdapter(
         }
     }
 
+    fun setOnClickListener(onClickListener: OnClickListener){
+        this.onClickListener = onClickListener
+    }
+
     interface OnClickListener{
         fun onClick(position: Int, model: Board)
     }

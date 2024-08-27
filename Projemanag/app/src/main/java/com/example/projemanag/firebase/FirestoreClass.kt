@@ -8,6 +8,7 @@ import com.example.projemanag.activities.MainActivity
 import com.example.projemanag.activities.MyProfileActivity
 import com.example.projemanag.activities.SignInActivity
 import com.example.projemanag.activities.SignUpActivity
+import com.example.projemanag.activities.TaskListActivity
 import com.example.projemanag.models.Board
 import com.example.projemanag.models.User
 import com.example.projemanag.utils.Constants
@@ -102,7 +103,7 @@ class FirestoreClass {
     }
 
 
-    // Prende dallo storage lo storage by id
+    // Prende dallo storage lo storage by id // nota qui e stato messo whereArrayContains
     fun getBoardsList(activity: MainActivity){
         mFireStore.collection(Constants.BOARDS)
             .whereArrayContains(Constants.ASSIGNED_TO,getCurrentUserId())
@@ -112,6 +113,7 @@ class FirestoreClass {
                 Log.i(activity.javaClass.simpleName, document.documents.toString())
                 val boardList: ArrayList<Board> = ArrayList()
                 for (i in document.documents){
+                    // MOLTO IMPORTANTE!
                     val board = i.toObject(Board::class.java)!!
                     board.documentId = i.id
                     boardList.add(board)
@@ -155,6 +157,27 @@ class FirestoreClass {
             currentUserID = currentUser.uid
         }
         return currentUserID
+    }
+
+
+    // Prende i task relativi all'id del boardDocumentId
+    fun getBoardsDetails(activity: TaskListActivity, documentId: String) {
+        mFireStore.collection(Constants.BOARDS)
+            .document(documentId)
+            .get()
+            .addOnSuccessListener {
+                    document ->
+                Log.i(activity.javaClass.simpleName, document.toString())
+
+                // MOLTO IMPORTANTE! Guarda altri MOLTO IMPORTANTE!
+                activity.boardDetails(document.toObject(Board::class.java)!!)
+
+            }.addOnFailureListener {
+                    e ->
+                activity.hideProgressDialog()
+                Log.e(activity.javaClass.simpleName, "Error while creating a board", e)
+
+            }
     }
 
 }
