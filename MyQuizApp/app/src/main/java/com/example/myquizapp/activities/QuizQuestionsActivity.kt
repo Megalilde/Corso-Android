@@ -55,7 +55,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
         binding?.llOptionFour?.setOnClickListener(this)
         binding?.btnSubmit?.setOnClickListener(this)
 
-        mQuestionList = QuestionList().getQuestions()
+        mQuestionList = QuestionList(this).getQuestions()
 
         setQuestion()
         setupTimer()
@@ -70,16 +70,16 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
         defaultOptionsView()
         binding?.tvQuestion?.text = question.question
         binding?.ivImage?.setImageResource(question.image)
-        binding?.tvProgress?.text = "Question $mCurrentPosition/${mQuestionList?.size}"
+        binding?.tvProgress?.text = resources.getString(R.string.Question)+ " " + mCurrentPosition + "/" + mQuestionList?.size
         binding?.tvOptionOneTemp?.text = question.optionOne
         binding?.tvOptionTwoTemp?.text = question.optionTwo
         binding?.tvOptionThreeTemp?.text = question.optionTree
         binding?.tvOptionFourTemp?.text = question.optionFour
 
         if(mCurrentPosition == mQuestionList!!.size){
-            binding?.btnSubmit?.text = "FINISH"
+            binding?.btnSubmit?.text = resources.getString(R.string.finish)
         }else{
-            binding?.btnSubmit?.text = "SUBMIT"
+            binding?.btnSubmit?.text = resources.getString(R.string.submit)
 
         }
     }
@@ -245,9 +245,9 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                     answerView(question.correctAnswer, R.drawable.correct_option_border_bg)
 
                     if (mCurrentPosition == mQuestionList!!.size) {
-                        binding?.btnSubmit?.text = "FINISH"
+                        binding?.btnSubmit?.text = resources.getString(R.string.finish)
                     } else {
-                        binding?.btnSubmit?.text = "GO TO NEXT QUESTION"
+                        binding?.btnSubmit?.text = resources.getString(R.string.go_to_next_question)
                     }
 
                     mSelectedOptionPosition = 0

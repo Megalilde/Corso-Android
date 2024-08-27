@@ -8,8 +8,44 @@
     <string name="welcome">Welcome</string>
     <string name="quiz_image">Quiz Image</string>
     <string name="Question_0_9">Question 0/9</string>
+    <string name="Question">Questions</string>
     <string name="submit">SUBMIT</string>
     <string name="result">Result</string>
     <string name="hey_congratulations">Hey, Congratulations!</string>
     <string name="clock">Clock</string>
+    <string name="finish">FINISH</string>
+    <string name="go_to_next_question">NEXT QUESTION</string>
+
+
+    <!-- Domande Default-->
+
+    <string name="question_text">What country does this flag belong to ?</string>
+    <string name="Argentina">Argentina</string>
+    <string name="Australia">Australia</string>
+    <string name="Austria">Austria</string>
+    <string name="Armenia">Armenia</string>
+    <string name="Bielorussia">Bielorussia</string>
+    <string name="Sudan">Sudan</string>
+    <string name="Belgium">Belgium</string>
+    <string name="Venezuela">Venezuela</string>
+    <string name="Turkmenistan">Turkmenistan</string>
+    <string name="Brazil">Brazil</string>
+    <string name="Italy">Italy</string>
+    <string name="Denmark">Denmark</string>
+    <string name="Fiji">Fiji</string>
+    <string name="China">China</string>
+    <string name="Germany">Germany</string>
+    <string name="Russia">Russia</string>
+    <string name="Pakistan">Pakistan</string>
+    <string name="Chile">Chile</string>
+    <string name="India">India</string>
+    <string name="Kuwait">Kuwait</string>
+    <string name="Iran">Iran</string>
+    <string name="Iraq">Iraq</string>
+    <string name="Poland">Poland</string>
+    <string name="France">France</string>
+    <string name="Portugal">Portugal</string>
+    <string name="Spain">Spain</string>
+    <string name="Ukraine">Ukraine</string>
+
 </resources>

@@ -1,0 +1,49 @@
+<resources>
+    <string name="app_name">Bandiera Quiz</string>
+    <string name="start">Start</string>
+    <string name="surname">Cognome</string>
+    <string name="please_enter_your_surname">Per favore metti il tuo cognome</string>
+    <string name="name">Nome</string>
+    <string name="please_enter_your_name">Per favore metti il tuo nome</string>
+    <string name="welcome">Benvenuto</string>
+    <string name="quiz_image">Quiz Immagine</string>
+    <string name="Question_0_9">Domanda 0/9</string>
+    <string name="Question">Domanda</string>
+    <string name="submit">INVIA</string>
+    <string name="result">Risultato</string>
+    <string name="hey_congratulations">Hey, Congratulazioni!</string>
+    <string name="clock">Orologio</string>
+    <string name="finish">FINITO</string>
+    <string name="go_to_next_question">PROSSIMA DOMANDA</string>
+
+
+    <!-- Domande Default-->
+    <string name="question_text">A quale paese appartiene questa bandiera?</string>
+    <string name="Argentina">Argentina</string>
+    <string name="Australia">Australia</string>
+    <string name="Austria">Austria</string>
+    <string name="Armenia">Armenia</string>
+    <string name="Bielorussia">Bielorussia</string>
+    <string name="Sudan">Sudan</string>
+    <string name="Belgium">Belgio</string>
+    <string name="Venezuela">Venezuela</string>
+    <string name="Turkmenistan">Turkmenistan</string>
+    <string name="Brazil">Brasile</string>
+    <string name="Italy">Italia</string>
+    <string name="Denmark">Danimarca</string>
+    <string name="Fiji">Fiji</string>
+    <string name="China">Cina</string>
+    <string name="Germany">Germania</string>
+    <string name="Russia">Russia</string>
+    <string name="Pakistan">Pakistan</string>
+    <string name="Chile">Cile</string>
+    <string name="India">India</string>
+    <string name="Kuwait">Kuwait</string>
+    <string name="Iran">Iran</string>
+    <string name="Iraq">Iraq</string>
+    <string name="Poland">Polonia</string>
+    <string name="France">Francia</string>
+    <string name="Portugal">Portogallo</string>
+    <string name="Spain">Spagna</string>
+    <string name="Ukraine">Ucraina</string>
+</resources>
