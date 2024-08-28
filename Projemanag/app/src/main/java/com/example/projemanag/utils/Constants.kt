@@ -24,6 +24,8 @@ object Constants {
 
     const val TASK_LIST: String = "taskList"
 
+    const val BOARD_DETAIL: String = "board_detail"
+
     // Metodo relativo ai permessi dello storage.
     fun showImageChooser(activity: Activity){
         val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
