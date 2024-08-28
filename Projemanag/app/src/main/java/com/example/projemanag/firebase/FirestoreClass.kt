@@ -148,7 +148,7 @@ class FirestoreClass {
     }
 
 
-    // Da uid unico dell'utente attuale. (Vedere autentication su firebase.)
+    // Restituisce uid unico dell'utente attuale. (Vedere autentication su firebase.)
     fun getCurrentUserId(): String{
 
         var currentUser = FirebaseAuth.getInstance().currentUser
