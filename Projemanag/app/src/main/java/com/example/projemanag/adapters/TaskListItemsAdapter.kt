@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.example.projemanag.activities.TaskListActivity
 import com.example.projemanag.databinding.ItemTaskBinding
 import com.example.projemanag.models.Task
 
@@ -35,6 +37,28 @@ open class TaskListItemsAdapter(private val context: Context, private var list: 
             binding.tvAddTaskList.visibility = View.GONE
             binding.llTaskItem.visibility = View.VISIBLE
 
+        }
+        binding.tvTaskListTitle.text = model.title
+        binding.tvAddTaskList.setOnClickListener {
+            binding.tvAddTaskList.visibility = View.GONE
+            binding.cvAddTaskListName.visibility = View.VISIBLE
+        }
+
+        binding.ibCloseListName.setOnClickListener{
+            binding.tvAddTaskList.visibility = View.VISIBLE
+            binding.cvAddTaskListName.visibility = View.GONE
+        }
+
+        binding.ibDoneListName.setOnClickListener {
+            val listname = binding.etTaskListName.text.toString()
+
+            if(listname.isNotEmpty()){
+                if(context is TaskListActivity){
+                    context.createTaskList(listname)
+                }
+            }else{
+                Toast.makeText(context, "Please Enter List Name.", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
