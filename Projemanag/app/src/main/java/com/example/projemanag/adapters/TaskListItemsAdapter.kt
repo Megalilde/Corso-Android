@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.projemanag.activities.TaskListActivity
 import com.example.projemanag.databinding.ItemTaskBinding
@@ -87,6 +88,36 @@ open class TaskListItemsAdapter(private val context: Context, private var list: 
             alertDialogForDeleteList(position,model.title)
         }
 
+        binding.tvAddCard.setOnClickListener{
+            binding.tvAddCard.visibility = View.GONE
+            binding.cvAddCard.visibility = View.VISIBLE
+        }
+
+        binding.ibCloseCardName.setOnClickListener {
+            binding.tvAddCard.visibility = View.VISIBLE
+            binding.cvAddCard.visibility = View.GONE
+        }
+
+        binding.ibDoneCardName.setOnClickListener {
+            val cardName = binding.etCardName.text.toString()
+
+            if(cardName.isNotEmpty()){
+                if(context is TaskListActivity){
+                    context.addCardToTaskList(position,cardName)
+                }
+            }else{
+                Toast.makeText(context, "Please Enter Card Name", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        // Adapter per la lista delle Card
+
+        binding.rvCardList.layoutManager = LinearLayoutManager(context)
+
+        binding.rvCardList.setHasFixedSize(true)
+
+        val adapter = CardListItemsAdapter(context,model.cards)
+        binding.rvCardList.adapter = adapter
 
     }
 
