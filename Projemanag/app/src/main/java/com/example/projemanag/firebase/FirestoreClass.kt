@@ -3,6 +3,7 @@ package com.example.projemanag.firebase
 import android.app.Activity
 import android.util.Log
 import android.widget.Toast
+import com.example.projemanag.activities.CardDetailsActivity
 import com.example.projemanag.activities.CreateBoardActivity
 import com.example.projemanag.activities.MainActivity
 import com.example.projemanag.activities.MembersActivity
@@ -162,7 +163,7 @@ class FirestoreClass {
 
 
     // Aggiunge i task nella board associata.
-    fun addUpdateTaskList(activity: TaskListActivity, board: Board){
+    fun addUpdateTaskList(activity: Activity, board: Board){
         val taskListHashMap = HashMap<String, Any>()
         taskListHashMap[Constants.TASK_LIST] = board.taskList
 
@@ -171,10 +172,21 @@ class FirestoreClass {
             .update(taskListHashMap)
             .addOnSuccessListener {
                 Log.i(activity.javaClass.simpleName, "TaskList updated successfully")
-                activity.addUpdateTaskListSuccess()
+                if (activity is TaskListActivity){
+                    activity.addUpdateTaskListSuccess()
+                }
+                else if (activity is CardDetailsActivity){
+                    activity.addUpdateTaskListSuccess()
+                }
+
             }.addOnFailureListener {
                 exception ->
-                activity.hideProgressDialog()
+                if (activity is TaskListActivity){
+                    activity.hideProgressDialog()
+                }
+                else if (activity is CardDetailsActivity){
+                    activity.hideProgressDialog()
+                }
                 Log.e(activity.javaClass.simpleName, "Error while creating a board", exception)
             }
     }

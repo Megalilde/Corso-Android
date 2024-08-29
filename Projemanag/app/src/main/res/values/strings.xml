@@ -60,4 +60,9 @@
     <dimen name="card_details_update_btn_marginTop">30dp</dimen>
 
     <string name="delete_card">Delete Card</string>
+
+    <string name="alert">Alert</string>
+    <string name="confirmation_message_to_delete_card">Are you sure you want to delete card \'%1$s\'?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>
