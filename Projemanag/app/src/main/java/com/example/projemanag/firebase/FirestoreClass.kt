@@ -5,6 +5,7 @@ import android.util.Log
 import android.widget.Toast
 import com.example.projemanag.activities.CreateBoardActivity
 import com.example.projemanag.activities.MainActivity
+import com.example.projemanag.activities.MembersActivity
 import com.example.projemanag.activities.MyProfileActivity
 import com.example.projemanag.activities.SignInActivity
 import com.example.projemanag.activities.SignUpActivity
@@ -198,6 +199,29 @@ class FirestoreClass {
                 activity.hideProgressDialog()
                 Log.e(activity.javaClass.simpleName, "Error while creating a board", e)
 
+            }
+    }
+
+
+    fun getAssignedMembersListDetails(activity: MembersActivity, assignedTo: ArrayList<String>){
+        mFireStore.collection(Constants.USERS)
+            .whereIn(Constants.ID, assignedTo)
+            .get()
+            .addOnSuccessListener {
+                document ->
+                Log.e(activity.javaClass.simpleName, document.documents.toString())
+
+                val usersList: ArrayList<User> = ArrayList()
+
+                for(i in document.documents){
+                    val user = i.toObject(User::class.java)!!
+                    usersList.add(user)
+                }
+                activity.setupMembersList(usersList)
+
+            }.addOnFailureListener {
+                activity.hideProgressDialog()
+                Log.e(activity.javaClass.simpleName, "Error while creating a board")
             }
     }
 
