@@ -278,7 +278,7 @@ class CardDetailsActivity : BaseActivity() {
             binding?.tvSelectMembers?.visibility = View.GONE
             binding?.rvSelectedMembersList?.visibility = View.VISIBLE
             binding?.rvSelectedMembersList?.layoutManager = GridLayoutManager(this,6)
-            val adapter = CardMemberListItemsAdapter(this,selectedMembersList)
+            val adapter = CardMemberListItemsAdapter(this,selectedMembersList,true)
             binding?.rvSelectedMembersList?.adapter = adapter
 
             // Quando clicchiamo un elemento dell'adapter

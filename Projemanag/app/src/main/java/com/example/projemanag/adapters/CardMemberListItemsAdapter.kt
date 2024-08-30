@@ -11,7 +11,7 @@ import com.example.projemanag.databinding.ItemCardSelectedMemberBinding
 import com.example.projemanag.models.SelectedMembers
 import com.example.projemanag.models.User
 
-open class CardMemberListItemsAdapter(private val context: Context, private val list: ArrayList<SelectedMembers>): RecyclerView.Adapter<CardMemberListItemsAdapter.MyViewHolder>() {
+open class CardMemberListItemsAdapter(private val context: Context, private val list: ArrayList<SelectedMembers>, private val assignMembers: Boolean): RecyclerView.Adapter<CardMemberListItemsAdapter.MyViewHolder>() {
 
     private var onClickListener: OnClickListener? = null
 
@@ -31,7 +31,7 @@ open class CardMemberListItemsAdapter(private val context: Context, private val 
         val model = list[position]
         val binding = holder.binding
 
-        if(position == list.size - 1){
+        if(position == list.size - 1 && assignMembers){
             binding.ivAddMember.visibility = View.VISIBLE
             binding.ivSelectedMemberImage.visibility = View.GONE
         }else{
