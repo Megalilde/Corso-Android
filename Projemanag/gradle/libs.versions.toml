@@ -17,6 +17,7 @@ firebaseFirestoreKtx = "25.0.0"
 circleImageView = "3.1.0"
 glide = "4.11.0"
 firebaseStorageKtx = "21.0.0"
+firebaseMessaging = "20.1.1"
 
 
 [libraries]
@@ -36,6 +37,7 @@ circleimageview = { group = "de.hdodenhof", name = "circleimageview", version.re
 glide =  { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 glideCompiler =  { group = "com.github.bumptech.glide", name = "compiler", version.ref = "glide" }
 firebase-storage-ktx = { group = "com.google.firebase", name = "firebase-storage-ktx", version.ref = "firebaseStorageKtx" }
+firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging", version.ref = "firebaseMessaging" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
