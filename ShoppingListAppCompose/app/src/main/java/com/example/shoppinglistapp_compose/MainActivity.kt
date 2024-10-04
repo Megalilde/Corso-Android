@@ -28,27 +28,10 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ShoppingListAppComposeTheme {
-                Surface(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-
-                    var sItems by remember { mutableStateOf(listOf<ShoppingItem>()) }
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.Center
-                    ){
-                        Button(
-                            onClick = {},
-                            modifier = Modifier.align(Alignment.CenterHorizontally)
-                        ){
-                            Text(text = "Add Item")
-                        }
-                        LazyColumn (
-                            modifier = Modifier.fillMaxSize().padding(16.dp)
-                        ){
-                            items(sItems){
-
-                            }
-                        }
-                    }
+                Surface(modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp)) {
+                    ShoppingListApp()
                 }
             }
         }
@@ -56,9 +39,3 @@ class MainActivity : ComponentActivity() {
 }
 
 
-data class ShoppingItem(
-    val id: Int,
-    var name: String,
-    var quantity: Int,
-    var isEditing: Boolean = false
-    )
