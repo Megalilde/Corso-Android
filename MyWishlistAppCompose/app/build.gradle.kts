@@ -61,12 +61,12 @@ dependencies {
     // Room
     implementation("androidx.room:room-runtime:$room")
     implementation("androidx.room:room-ktx:$room")
-    kapt("androidx.room:room-compiler$room")
+    kapt("androidx.room:room-compiler:$room")
 
-    implementation("androidx.navigation:navigation-compose:2.8.2:$nav_version")
-    implementation("androidx.compose.ui:ui:$compose_version")
-    implementation("androidx.compose.material:material:$compose_version")
-    implementation("androidx.compose.ui:ui-tooling-preview:$compose_version")
+    implementation("androidx.navigation:navigation-compose:$nav_version")
+    //implementation("androidx.compose.ui:ui:$compose_version")
+    //implementation("androidx.compose.material:material:$compose_version")
+    //implementation("androidx.compose.ui:ui-tooling-preview:$compose_version")
 
 
     implementation(libs.androidx.core.ktx)
