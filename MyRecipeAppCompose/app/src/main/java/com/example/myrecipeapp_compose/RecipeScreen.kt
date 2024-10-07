@@ -1,6 +1,7 @@
 package com.example.myrecipeapp_compose
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
@@ -24,20 +25,22 @@ import coil.compose.rememberAsyncImagePainter
 
 
 @Composable
-fun RecipeScreen(modifier: Modifier = Modifier){
-    val recipeViewModel: MainViewModel = viewModel()
-    val viewState by recipeViewModel.categoriesState
+fun RecipeScreen(
+    modifier: Modifier = Modifier,
+    viewstate: MainViewModel.RecipeState,
+    navigateToDetail: (Category) -> Unit
+){
     Box(modifier = Modifier.fillMaxSize()) {
         when{
-            viewState.loading ->{
+            viewstate.loading ->{
                 CircularProgressIndicator(modifier.align(Alignment.Center))
             }
-            viewState.error != null -> {
+            viewstate.error != null -> {
                 Text("ERROR OCCURRED")
             }
             else ->{
                 // Display Categories
-                CategoriesScreen(categories = viewState.list)
+                CategoriesScreen(categories = viewstate.list, navigateToDetail)
             }
         }
 
@@ -46,22 +49,30 @@ fun RecipeScreen(modifier: Modifier = Modifier){
 
 
 @Composable
-fun CategoriesScreen(categories: List<Category>){
+fun CategoriesScreen(
+    categories: List<Category>,
+    navigateToDetail: (Category) -> Unit
+){
     LazyVerticalGrid(GridCells.Fixed(2), modifier = Modifier.fillMaxSize()) {
         items(categories){
             category ->
-            CategoryItem(category = category)
+            CategoryItem(category = category, navigateToDetail)
 
         }
     }
 }
 
 @Composable
-fun CategoryItem(category: Category){
+fun CategoryItem(
+    category: Category,
+    navigateToDetail: (Category) -> Unit
+){
     Column (modifier = Modifier
         .padding(8.dp)
-        .fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally){
+        .fillMaxSize().clickable { navigateToDetail(category) },
 
+        horizontalAlignment = Alignment.CenterHorizontally
+    ){
         Image(
             painter = rememberAsyncImagePainter(model = category.strCategoryThumb),
             contentDescription = null,
