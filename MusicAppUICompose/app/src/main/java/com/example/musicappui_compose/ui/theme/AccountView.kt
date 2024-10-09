@@ -1,4 +1,4 @@
-package eu.tutorials.musicappui.ui.theme
+package com.example.musicappui_compose.ui.theme
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
