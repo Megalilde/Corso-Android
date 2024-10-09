@@ -69,7 +69,8 @@ fun MainView(){
     val isSheetFullScreen by remember{ mutableStateOf(false) }
 
     val modifier = if(isSheetFullScreen) Modifier.fillMaxSize() else Modifier.fillMaxWidth()
-    // Allow us to find out on which "View" we current are
+
+
     val controller: NavController = rememberNavController()
     val navBackStackEntry by controller.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
@@ -261,14 +262,14 @@ fun Navigation(navController: NavController, viewModel: MainViewModel, pd:Paddin
     NavHost(navController = navController as NavHostController,
         startDestination = Screen.DrawerScreen.Account.route, modifier = Modifier.padding(pd) ){
 
-        composable(Screen.BottomScreen.Home.bRoute){
+        composable(Screen.BottomScreen.Home.route){
             Home()
         }
-        composable(Screen.BottomScreen.Browse.bRoute){
+        composable(Screen.BottomScreen.Browse.route){
             Browse()
         }
 
-        composable(Screen.BottomScreen.Library.bRoute){
+        composable(Screen.BottomScreen.Library.route){
             Library()
         }
 
